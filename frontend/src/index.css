@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #006948;
+  --color-primary-emerald: #059669;
+  --color-primary-light: #10b981;
+  --color-primary-container: #00855d;
+  --color-on-primary-container: #f5fff7;
+  --color-primary-fixed: #85f8c4;
+  --color-primary-fixed-dim: #68dba9;
+
+  --color-secondary: #2b6954;
+  --color-secondary-container: #adedd3;
+  --color-on-secondary-container: #306d58;
+  --color-secondary-fixed: #b0f0d6;
+  --color-secondary-fixed-dim: #95d3ba;
+
+  --color-tertiary: #006194;
+  --color-tertiary-container: #007bb9;
+  --color-on-tertiary-container: #fdfcff;
+  --color-tertiary-fixed: #cce5ff;
+  --color-tertiary-fixed-dim: #93ccff;
+
+  --color-surface: #faf8ff;
+  --color-surface-dim: #d2d9f4;
+  --color-surface-bright: #faf8ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f3ff;
+  --color-surface-container: #eaedff;
+  --color-surface-container-high: #e2e7ff;
+  --color-surface-container-highest: #dae2fd;
+
+  --color-on-surface: #131b2e;
+  --color-on-surface-variant: #3d4a42;
+  --color-background: #faf8ff;
+  --color-on-background: #131b2e;
+  --color-outline: #6d7a72;
+  --color-outline-variant: #bccac0;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    color: #131b2e;
+    background-color: #faf8ff;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+  }
+}
+
+/* Custom Leaflet Map Adjustments */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  z-index: 10;
+  font-family: 'Inter', sans-serif;
+}
+
+.custom-leaflet-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f2f3ff;
+}
+::-webkit-scrollbar-thumb {
+  background: #bccac0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #006948;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
