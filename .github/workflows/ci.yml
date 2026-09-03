@@ -2,9 +2,9 @@ name: EcoThrow RMC CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ '**' ]
 
 jobs:
   backend-tests:
@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_DB: ecothrow_rmc
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres_password
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -48,7 +48,7 @@ jobs:
           DB_PORT: 5432
           DB_DATABASE: ecothrow_rmc
           DB_USERNAME: postgres
-          DB_PASSWORD: postgres_password
+          DB_PASSWORD: postgres
 
       - name: Run Backend Migrations & Seeders
         working-directory: ./backend
@@ -59,7 +59,7 @@ jobs:
           DB_PORT: 5432
           DB_DATABASE: ecothrow_rmc
           DB_USERNAME: postgres
-          DB_PASSWORD: postgres_password
+          DB_PASSWORD: postgres
 
       - name: Execute Automated Feature & Business Rule Tests (PHPUnit)
         working-directory: ./backend
@@ -70,7 +70,7 @@ jobs:
           DB_PORT: 5432
           DB_DATABASE: ecothrow_rmc
           DB_USERNAME: postgres
-          DB_PASSWORD: postgres_password
+          DB_PASSWORD: postgres
 
   frontend-build:
     name: Frontend Quality & Build (React & Vite)
