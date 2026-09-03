@@ -1,6 +1,6 @@
 # Especificação de Requisitos de Software (SRS)
 
-## Sistema de Agendamento e Mapeamento de Lixo Eletrônico (EcoDescarte RMC)
+## Sistema de Agendamento e Mapeamento de Lixo Eletrônico (EcoThrow RMC)
 
 **Conforme a Norma ISO/IEC/IEEE 29148:2018**
 
@@ -9,10 +9,10 @@
 ## 1. Introdução
 
 ### 1.1 Propósito
-O propósito deste documento é definir a Especificação de Requisitos de Software (SRS) para o sistema **EcoDescarte RMC**. O objetivo principal do sistema é facilitar o descarte ambientalmente correto de resíduos eletroeletrônicos na Região Metropolitana de Campinas (RMC), conectando cidadãos a pontos de coleta credenciados e cooperativas de reciclagem por meio de localização geográfica e agendamentos.
+O propósito deste documento é definir a Especificação de Requisitos de Software (SRS) para o sistema **EcoThrow RMC**. O objetivo principal do sistema é facilitar o descarte ambientalmente correto de resíduos eletroeletrônicos na Região Metropolitana de Campinas (RMC), conectando cidadãos a pontos de coleta credenciados e cooperativas de reciclagem por meio de localização geográfica e agendamentos.
 
 ### 1.2 Escopo do Sistema
-O **EcoDescarte RMC** é uma aplicação web voltada para:
+O **EcoThrow RMC** é uma aplicação web voltada para:
 * **Cidadãos/Geradores de Resíduos:** Localização de pontos de coleta próximos, consulta de materiais aceitos e agendamento de entregas.
 * **Pontos de Coleta/Cooperativas:** Gestão de horários disponíveis, recebimento e confirmação de agendamentos.
 * **Administradores:** Cadastro e homologação de novos pontos de coleta na RMC.
@@ -33,7 +33,7 @@ Este documento descreve os requisitos do sistema em conformidade com as diretriz
 ## 2. Descrição Geral
 
 ### 2.1 Perspectiva do Produto
-O EcoDescarte RMC é um sistema autônomo baseado na arquitetura Web (Cliente-Servidor). Ele se integra a serviços de mapas (como Leaflet/OpenStreetMap ou Google Maps API) para renderização visual e geolocalização dos pontos de coleta na região.
+O EcoThrow RMC é um sistema autônomo baseado na arquitetura Web (Cliente-Servidor). Ele se integra a serviços de mapas (como Leaflet/OpenStreetMap ou Google Maps API) para renderização visual e geolocalização dos pontos de coleta na região.
 
 ### 2.2 Funções do Produto
 * Mapeamento interativo de pontos de coleta na RMC.
@@ -98,35 +98,50 @@ O EcoDescarte RMC é um sistema autônomo baseado na arquitetura Web (Cliente-Se
 
 ### 4.1 Entidades Principais e Atributos
 
-1. **Usuario**
-   * `id_usuario` (PK, Int, Auto Increment)
-   * `nome` (Varchar 100)
-   * `email` (Varchar 100, Unique)
-   * `senha_hash` (Varchar 255)
-   * `tipo_perfil` (Enum: 'CIDADAO', 'OPERADOR', 'ADMIN')
+# Documentação do Banco de Dados
 
-2. **PontoColeta**
-   * `id_ponto` (PK, Int, Auto Increment)
-   * `nome_local` (Varchar 100)
-   * `municipio` (Varchar 50)
-   * `endereco` (Varchar 200)
-   * `latitude` (Decimal 10, 8)
-   * `longitude` (Decimal 11, 8)
-   * `limite_diario` (Int)
+## 1. Diagrama Entidade-Relacionamento (Mermaid)
 
-3. **TipoResiduo**
-   * `id_residuo` (PK, Int, Auto Increment)
-   * `categoria` (Varchar 50) — *Ex: Monitores, Pilhas/Baterias, Eletrodomésticos*
-   * `descricao` (Text)
-
-4. **Agendamento**
-   * `id_agendamento` (PK, Int, Auto Increment)
-   * `id_usuario` (FK -> Usuario)
-   * `id_ponto` (FK -> PontoColeta)
-   * `id_residuo` (FK -> TipoResiduo)
-   * `data_hora` (Datetime)
-   * `status` (Enum: 'PENDENTE', 'CONCLUIDO', 'CANCELADO')
-   * `codigo_validacao` (Varchar 10)
+```mermaid
+erDiagram
+    Usuario {
+        int id_usuario PK
+        string nome
+        string email UK
+        string senha_hash
+        string tipo_perfil
+    }
+```
+```
+    PontoColeta {
+        int id_ponto PK
+        string nome_local
+        string municipio
+        string endereco
+        decimal latitude
+        decimal longitude
+        int limite_diario
+    }
+```
+```
+    TipoResiduo {
+        int id_residuo PK
+        string categoria
+        text descricao
+    }
+```
+```
+    Agendamento {
+        int id_agendamento PK
+        int id_usuario FK
+        int id_ponto FK
+        int id_residuo FK
+        datetime data_hora
+        string status
+        string codigo_validacao
+    }
+```
+---
 
 ### 4.2 Diagrama Entidade-Relacionamento (Relacionamentos)
 * Um **PontoColeta** pode aceitar vários **TiposResiduo** (Relacionamento N:M através de tabela intermediária `Ponto_Residuo`).
@@ -135,10 +150,21 @@ O EcoDescarte RMC é um sistema autônomo baseado na arquitetura Web (Cliente-Se
 
 ---
 
-## 5. Sugestão de Arquitetura e Tecnologias
+## 5. Arquitetura e Tecnologias
 
-Para o seu desenvolvimento com suporte de IA no SENAI:
-* **Front-end:** HTML5, CSS3 (Bootstrap ou Tailwind), JavaScript.
-* **Back-end:** Node.js (Express) ou Python (Flask / FastAPI).
-* **Banco de Dados:** SQLite (fácil configuração em desenvolvimento) ou MySQL / PostgreSQL.
+Para o desenvolvimento desse projeto foram utilizadas as seguintes tecnologias:
+* **IDE:** Antigravity IDE
+* **Prototipagem:** Stitch
+* **Auxilio Criativo:** Google Gemini AI
+* **Front-end:** HTML5, CSS3 (c/ Tailwind) e React
+* **Back-end:** PHP Laravel
+* **Banco de Dados:** PostgreSQL.
 * **Mapas:** Leaflet.js com azulejos de mapa OpenStreetMap (100% gratuito e sem necessidade de cartão de crédito).
+
+## Autores
+
+Projeto desenvolvido por:
+
+**Filipe Augusto Reis, Eduardo Lucas Garcia e Guilherme Prestes Bosco Biondo**
+
+---
